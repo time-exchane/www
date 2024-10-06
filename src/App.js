@@ -93,6 +93,18 @@ export default function App() {
   const t = translations[language];
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const formData = new FormData();
+        formData.append('form-name', 'signupForm');
+        formData.append('email', document.getElementById("signUpEmail").value);
+  
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(() => console.log("Form successfully submitted"))
+      .catch((error) => alert(error));
   }
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white">
@@ -132,9 +144,9 @@ export default function App() {
         <section id="signup" className="container mx-auto px-4 py-16 text-center">
           <h2 className="text-3xl font-bold mb-4">{t.signup.title}</h2>
           <p className="text-xl mb-8">{t.signup.subtitle}</p>
-          <form className="max-w-md mx-auto" onSubmit={handleSubmit} data-netlify="true" data-netlify-recaptcha="true">
-            <input type="email" autoComplete="email" placeholder={t.signup.placeholder} className="w-full p-3 mb-4 border rounded" required />
-            <div data-netlify-recaptcha="true"></div>
+          <form name="signupForm" id="signupForm" action="#" method="post" className="max-w-md mx-auto" onSubmit={handleSubmit} data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="signupForm"></input>
+            <input name='email' id="signUpEmail" type="email" autoComplete="email" placeholder={t.signup.placeholder} className="w-full p-3 mb-4 border rounded" required />
             <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition duration-300">
               {t.signup.button}
             </button>
