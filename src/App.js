@@ -42,7 +42,7 @@ const translations = {
     footer: "© 2024 Time Exchange. All rights reserved."
   },
   el: {
-    title: "ΤράπεζαΧρόνου",
+    title: "Time Exchange",
     nav: {
       features: "Χαρακτηριστικά",
       howItWorks: "Πώς λειτουργεί",
@@ -54,7 +54,7 @@ const translations = {
       cta: "Ξεκινήστε"
     },
     features: {
-      title: "Γιατί να επιλέξετε την ΤράπεζαΧρόνου;",
+      title: "Γιατί να επιλέξετε την Time Exchange;",
       items: [
         { title: "Αξιοποιήστε τον Χρόνο σας", description: "Κάθε ώρα μετράει, ανεξάρτητα από τη δεξιότητα." },
         { title: "Χτίστε Κοινότητα", description: "Συνδεθείτε με άτομα με κοινά ενδιαφέροντα κοντά σας." },
@@ -73,12 +73,12 @@ const translations = {
       ]
     },
     signup: {
-      title: "Γίνετε Μέλος της ΤράπεζαΧρόνου Σήμερα",
+      title: "Γίνετε Μέλος της Time Exchange Σήμερα",
       subtitle: "Γίνετε μέρος μιας αναπτυσσόμενης κοινότητας μαθητών και δασκάλων.",
       placeholder: "Εισάγετε το email σας",
       button: "Αποκτήστε Πρόσβαση"
     },
-    footer: "© 2024 ΤράπεζαΧρόνου. Όλα τα δικαιώματα διατηρούνται."
+    footer: "© 2024 Time Exchange. Όλα τα δικαιώματα διατηρούνται."
   }
 };
 
@@ -91,7 +91,9 @@ export default function App() {
   }, []);
 
   const t = translations[language];
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  }
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white">
       <header className="container mx-auto px-4 py-6 flex justify-between items-center">
@@ -130,8 +132,9 @@ export default function App() {
         <section id="signup" className="container mx-auto px-4 py-16 text-center">
           <h2 className="text-3xl font-bold mb-4">{t.signup.title}</h2>
           <p className="text-xl mb-8">{t.signup.subtitle}</p>
-          <form className="max-w-md mx-auto" data-netlify="true">
-            <input type="email" placeholder={t.signup.placeholder} className="w-full p-3 mb-4 border rounded" required />
+          <form className="max-w-md mx-auto" onSubmit={handleSubmit} data-netlify="true" data-netlify-recaptcha="true">
+            <input type="email" autoComplete="email" placeholder={t.signup.placeholder} className="w-full p-3 mb-4 border rounded" required />
+            <div data-netlify-recaptcha="true"></div>
             <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition duration-300">
               {t.signup.button}
             </button>
