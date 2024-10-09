@@ -37,7 +37,8 @@ const translations = {
       title: "Join Time Exchange Today",
       subtitle: "Be part of a growing community of learners and teachers.",
       placeholder: "Enter your email",
-      button: "Get Early Access"
+      button: "Get Early Access",
+      thankyou: "Thank you for joining! You will be notified right before the app is released."
     },
     footer: "© 2024 Time Exchange. All rights reserved."
   },
@@ -76,7 +77,8 @@ const translations = {
       title: "Γίνετε Μέλος της Time Exchange Σήμερα",
       subtitle: "Γίνετε μέρος μιας αναπτυσσόμενης κοινότητας μαθητών και δασκάλων.",
       placeholder: "Εισάγετε το email σας",
-      button: "Αποκτήστε Πρόσβαση"
+      button: "Αποκτήστε Πρόσβαση",
+      thankyou: "Ευχαριστούμε για την εγγραφή! Θα ενημερωθείτε με e-mail όταν η εφαρμογή δημοσιευθεί."
     },
     footer: "© 2024 Time Exchange. Όλα τα δικαιώματα διατηρούνται."
   }
@@ -94,6 +96,12 @@ export default function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      document.getElementById("txtSignupThankyou").classList.remove("hidden");
+      document.getElementById("signupForm").classList.add("hidden");
+      return;
+    }
+
     const formData = new FormData();
         formData.append('form-name', 'signupForm');
         formData.append('email', document.getElementById("signUpEmail").value);
@@ -103,7 +111,11 @@ export default function App() {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(formData).toString(),
     })
-      .then(() => console.log("Form successfully submitted"))
+      .then(() => {
+        console.log("Form successfully submitted");
+        document.getElementById("txtSignupThankyou").classList.remove("hidden");
+        document.getElementById("signupForm").classList.add("hidden");
+      })
       .catch((error) => alert(error));
   }
   return (
@@ -151,6 +163,7 @@ export default function App() {
               {t.signup.button}
             </button>
           </form>
+          <h2 id="txtSignupThankyou" className="text-3xl font-bold mb-4 hidden">{t.signup.thankyou}</h2>
         </section>
       </main>
 
